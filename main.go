@@ -1,24 +1,31 @@
 package main
 
 import (
-	"database/sql"
-	"fmt"
-
-	_ "github.com/go-sql-driver/mysql"
+	"github.com/gin-gonic/gin"
+	"net/http"
 )
 
-var db *sql.DB
-
 func main() {
-	db,err:=sql.Open("mysql","root:ljh20040816@tcp(127.0.0.1:3306)/test")
-	if(err!=nil){
-		fmt.Println(err)
-		return
-	}
-	err=db.Ping()
-	if(err!=nil){
-		fmt.Println(err)
-		return
-	}
-	fmt.Println("数据库连接成功")
+	r := gin.Default()
+	r.Static("/xxx", "./statics")
+	r.LoadHTMLGlob("templates/*")
+	r.GET("/index.html", func(c *gin.Context) {
+		c.HTML(http.StatusOK, "index.html", nil)
+	})
+	r.GET("/about.html", func(c *gin.Context) {
+		c.HTML(http.StatusOK, "about.html", nil)
+	})
+	r.GET("/blog.html", func(c *gin.Context) {
+		c.HTML(http.StatusOK, "blog.html", nil)
+	})
+	r.GET("/client.html", func(c *gin.Context) {
+		c.HTML(http.StatusOK, "client.html", nil)
+	})
+	r.GET("/contact.html",func(c *gin.Context){
+		c.HTML(http.StatusOK,"contact.html",nil)
+	})
+	r.GET("/services.html",func(c *gin.Context){
+		c.HTML(http.StatusOK,"services.html",nil)
+	})
+	r.Run("localhost:8080")
 }
